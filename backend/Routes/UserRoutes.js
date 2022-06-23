@@ -40,4 +40,30 @@ router.post("/register", async (req, res) => {
   });
 });
 
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ error: "Please fill all the fields." });
+  }
+
+  try {
+    const emailExist = await User.findOne({ email: email });
+
+    if (!emailExist) {
+      return res.status(400).json({ error: "Email not found" });
+    }
+
+    const isMatch = await User.findOne({ password: password });
+
+    if (isMatch) {
+      return res.status(200).json({ message: "User login successfully." });
+    } else {
+      return res.status(400).json({ error: "Invalid Credentials" });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;
