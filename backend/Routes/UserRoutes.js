@@ -1,6 +1,8 @@
 const express = require("express");
 const connectDB = require("../DB/db");
 const router = express.Router();
+//const got = require("got");
+const http = require("http");
 
 connectDB();
 const User = require("../Models/UserSchema");
@@ -64,6 +66,13 @@ router.post("/login", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+const streamUrl = "http://192.168.0.103:4747/video";
+router.get("/video", (req, res) => {
+  http.get(streamUrl, (stream) => {
+    stream.pipe(res);
+  });
 });
 
 module.exports = router;
