@@ -5,9 +5,11 @@ const router = express.Router();
 const http = require("http");
 const fs = require("fs");
 const fetch = require("node-fetch");
+const bcrypt = require("bcrypt");
 
 connectDB();
 const User = require("../Models/UserSchema");
+const authenticate = require("../middlewares/authenticate");
 
 router.get("/", (req, res) => {
   res.send("api running");
@@ -55,19 +57,30 @@ router.post("/login", async (req, res) => {
     const emailExist = await User.findOne({ email: email });
 
     if (!emailExist) {
-      return res.status(400).json({ error: "Email not found" });
+      return res.status(400).json({ error: "Invalid Credentials." });
     }
 
-    const isMatch = await User.findOne({ password: password });
+    const isMatch = await bcrypt.compare(password, emailExist.password);
+
+    const token = await emailExist.generateAuthToken();
 
     if (isMatch) {
+      res.cookie("jwtoken", token, {
+        expires: new Date(Date.now() + 2592000000),
+        httpOnly: true,
+      });
+
       return res.status(200).json({ message: "User login successfully." });
     } else {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
+});
+
+router.get("/authenticate", authenticate, async (req, res) => {
+  res.send(req.rootUser);
 });
 
 // const streamUrl = "http://192.168.0.103:4747/video";
