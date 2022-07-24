@@ -27,6 +27,14 @@ const schema = mongoose.Schema({
       },
     },
   ],
+  cams: [
+    {
+      ip: {
+        type: String,
+        required: false,
+      },
+    },
+  ],
 });
 
 const User = mongoose.model("User", schema);
