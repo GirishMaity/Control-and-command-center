@@ -31,7 +31,11 @@ const schema = mongoose.Schema({
   ],
   cams: [
     {
-      ip: {
+      cameraname: {
+        type: String,
+        required: false,
+      },
+      ipaddress: {
         type: String,
         required: false,
       },
@@ -56,6 +60,20 @@ schema.methods.generateAuthToken = async function () {
     return token;
   } catch (error) {
     console.log(error);
+  }
+};
+
+schema.methods.addNewCamera = async function (cameraname, ipaddress) {
+  try {
+    this.cams = this.cams.concat({
+      cameraname: cameraname,
+      ipaddress: ipaddress,
+    });
+    await this.save();
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
   }
 };
 
