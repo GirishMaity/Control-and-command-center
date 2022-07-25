@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import styles from './styles.module.css';
-import React, { Component }  from 'react';
+import React  from 'react';
 
 const Main = () => {
 
@@ -10,7 +11,12 @@ const Main = () => {
     return (
         <div className={styles.main_container}>
             <nav className={styles.navbar}>
-                <h1></h1>
+            <Link to="/addcamera">
+                <button type="button" className={styles.white_btn}>
+                    Add New Camera
+                </button>
+            </Link>
+                <h1>WELCOME TO LIVE CAMERAS STREAMING</h1>
                 <button className={styles.white_btn} onClick={handleLogout}>
                     Logout
                 </button>

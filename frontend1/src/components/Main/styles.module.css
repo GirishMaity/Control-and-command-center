@@ -9,7 +9,7 @@
 
 .navbar h1 {
     color: white;
-    font-size: 25px;
+    font-size: 40px;
     margin-left: 20px;
 }
 
@@ -24,4 +24,5 @@
     font-size: 14px;
     cursor: pointer;
     margin-right: 20px;
+    margin-left: 20px;
 }

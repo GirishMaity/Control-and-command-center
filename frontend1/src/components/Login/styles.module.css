@@ -27,6 +27,13 @@
     border-bottom-left-radius: 10px;
 }
 
+.left h1 {
+    margin-top: 0;
+    color: white;
+    font-size: 35px;
+    align-self: center;
+}
+
 .form_container {
     display: flex;
     flex-direction: column;
@@ -66,16 +73,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: red;
+    background-color: white;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-}
-
-.right h1 {
-    margin-top: 0;
-    color: white;
-    font-size: 40px;
-    align-self: center;
 }
 
 .white_btn,
