@@ -39,6 +39,10 @@ const schema = mongoose.Schema({
         type: String,
         required: false,
       },
+      emailid: {
+        type: String,
+        required: false,
+      },
     },
   ],
 });
