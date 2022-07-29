@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
+import Cookies from "js-cookie";
 
 const AddCamera = () => {
   const handleLogout = () => {
@@ -11,12 +12,8 @@ const AddCamera = () => {
   };
 
   const [data, setData] = useState({
-    ipaddress: "",
     cameraname: "",
-    city: "",
-    state: "",
-    country: "",
-    maplink: "",
+    ipaddress: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -28,8 +25,11 @@ const AddCamera = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let token = Cookies.get("token");
       const url = "http://localhost:5000/addcamera";
-      const { data: res } = await axios.post(url, data);
+      const { data: res } = await axios.post(url, data, {
+        headers: { authorization: `Bearer ${token}` },
+      });
       navigate("/");
       console.log(res.message);
     } catch (error) {

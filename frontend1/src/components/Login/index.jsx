@@ -3,33 +3,31 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./styles.module.css";
+import Cookies from "js-cookie";
 
 const Login = () => {
-  const [data, setData] = useState({
+  const [user, setUser] = useState({
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
+    setUser({ ...user, [input.name]: input.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const url = "http://localhost:5000/login";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.data);
+      await axios.post(url, user).then((data) => {
+        const { token } = data.data;
+        Cookies.set("token", token);
+      });
+      //localStorage.setItem("token", res.user);
       window.location = "/";
     } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setError(error.response.data.message);
-      }
+      console.log(error);
     }
   };
 
@@ -53,7 +51,7 @@ const Login = () => {
               placeholder="Email"
               name="email"
               onChange={handleChange}
-              value={data.email}
+              value={user.email}
               required
               className={styles.input}
             />
@@ -62,7 +60,7 @@ const Login = () => {
               placeholder="Password"
               name="password"
               onChange={handleChange}
-              value={data.password}
+              value={user.password}
               required
               className={styles.input}
             />

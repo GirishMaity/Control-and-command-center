@@ -76,7 +76,7 @@ router.post("/login", async (req, res) => {
         httpOnly: true,
       });
 
-      return res.status(200).json({ message: "User login successfully." });
+      return res.status(200).json({ token: token });
     } else {
       return res.status(400).json({ error: "Invalid Credentials" });
     }
