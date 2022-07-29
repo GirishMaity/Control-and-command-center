@@ -11,6 +11,7 @@ const Main = () => {
     if (res.status === 200) {
       localStorage.clear();
       Cookies.remove("token", { path: "/", domain: "localhost" });
+      window.location.reload();
       navigate("/login", { replace: true });
     } else {
       throw new Error("Could not logout the user.");

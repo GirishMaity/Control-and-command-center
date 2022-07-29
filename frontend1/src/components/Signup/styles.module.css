@@ -1,7 +1,14 @@
+body{
+    margin: 0;
+}
+
 .signup_container {
     width: 100%;
     min-height: 100vh;
-    background-color: #f5f5f5;
+    background-image: url("https://cdn.wallpapersafari.com/58/60/3QEmqC.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*background-color: #f5f5f5;*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,7 +29,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #3bb19b;
+    background-image: url("https://c.tenor.com/4jDkHe9fEWAAAAAC/background.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*background-color: #3bb19b;*/
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -40,9 +50,19 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-image: url("https://c.tenor.com/hVXVO05BaRsAAAAC/geometric-abstract.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*background-color: white;*/
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+}
+
+.right h1 {
+    margin-top: 0;
+    color: white;
+    font-size: 35px;
+    align-self: center;
 }
 
 .form_container {
@@ -62,7 +82,9 @@
     width: 370px;
     padding: 15px;
     border-radius: 10px;
-    background-color: #edf5f3;
+    background-image: url("https://j.gifs.com/J6q8Bg.gif");
+    color: white;
+    /*background-color: #edf5f3;*/
     margin: 5px 0;
     font-size: 14px;
 }
@@ -83,7 +105,10 @@
     border: none;
     outline: none;
     padding: 12px 0;
-    background-color: white;
+    background-image: url("https://animesher.com/orig/1/140/1400/14003/animesher.com_kawaii-headers-header-1400342.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /*background-color: white;*/
     border-radius: 20px;
     width: 180px;
     font-weight: bold;
@@ -93,6 +118,18 @@
 
 .green_btn {
     background-color: #3bb19b;
-    color: white;
+    color: black;
     margin: 10px;
 }
+.green_btn:hover{
+    background-image: url("https://data.whicdn.com/images/279186120/original.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.white_btn:hover{
+    background-image: url("https://data.whicdn.com/images/279186120/original.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
