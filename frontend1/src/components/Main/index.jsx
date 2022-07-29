@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import React from "react";
+import axios from "axios";
 
 const Main = () => {
+  const navigate = useNavigate();
   const handleLogout = async () => {
     const res = await axios.get("http://localhost:5000/logout");
     if (res.status === 200) {
