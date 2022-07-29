@@ -6,9 +6,15 @@ import styles from "./styles.module.css";
 import Cookies from "js-cookie";
 
 const AddCamera = () => {
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const res = await axios.get("http://localhost:5000/logout");
+    if (res.status === 200) {
+      navigate("/login", { replace: true });
+    } else {
+      throw new Error("Could not logout the user.");
+    }
   };
 
   const [data, setData] = useState({
@@ -16,7 +22,7 @@ const AddCamera = () => {
     ipaddress: "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });

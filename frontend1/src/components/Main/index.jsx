@@ -1,28 +1,31 @@
-import { Link } from 'react-router-dom';
-import styles from './styles.module.css';
-import React  from 'react';
+import { Link } from "react-router-dom";
+import styles from "./styles.module.css";
+import React from "react";
 
 const Main = () => {
-
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        window.location.reload();
+  const handleLogout = async () => {
+    const res = await axios.get("http://localhost:5000/logout");
+    if (res.status === 200) {
+      navigate("/login", { replace: true });
+    } else {
+      throw new Error("Could not logout the user.");
     }
-    return (
-        <div className={styles.main_container}>
-            <nav className={styles.navbar}>
-            <Link to="/addcamera">
-                <button type="button" className={styles.white_btn}>
-                    Add New Camera
-                </button>
-            </Link>
-                <h1>WELCOME TO LIVE CAMERAS STREAMING</h1>
-                <button className={styles.white_btn} onClick={handleLogout}>
-                    Logout
-                </button>
-            </nav>
-        </div>
-    )
+  };
+  return (
+    <div className={styles.main_container}>
+      <nav className={styles.navbar}>
+        <Link to="/addcamera">
+          <button type="button" className={styles.white_btn}>
+            Add New Camera
+          </button>
+        </Link>
+        <h1>WELCOME TO LIVE CAMERAS STREAMING</h1>
+        <button className={styles.white_btn} onClick={handleLogout}>
+          Logout
+        </button>
+      </nav>
+    </div>
+  );
 };
 
 export default Main;
