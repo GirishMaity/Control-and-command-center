@@ -11,6 +11,8 @@ const AddCamera = () => {
   const handleLogout = async () => {
     const res = await axios.get("http://localhost:5000/logout");
     if (res.status === 200) {
+      localStorage.clear();
+      Cookies.remove("token", { path: "/", domain: "localhost" });
       navigate("/login", { replace: true });
     } else {
       throw new Error("Could not logout the user.");

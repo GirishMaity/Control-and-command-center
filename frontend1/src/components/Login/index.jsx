@@ -22,6 +22,7 @@ const Login = () => {
       const url = "http://localhost:5000/login";
       await axios.post(url, user).then((data) => {
         const { token } = data.data;
+        localStorage.setItem("token", token);
         Cookies.set("token", token);
       });
       //localStorage.setItem("token", res.user);

@@ -2,12 +2,15 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import React from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const Main = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     const res = await axios.get("http://localhost:5000/logout");
     if (res.status === 200) {
+      localStorage.clear();
+      Cookies.remove("token", { path: "/", domain: "localhost" });
       navigate("/login", { replace: true });
     } else {
       throw new Error("Could not logout the user.");
