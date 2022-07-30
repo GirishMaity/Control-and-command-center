@@ -91,7 +91,9 @@ const AddCamera = () => {
                 required
                 className={styles.input}
               />
-              <h3>Carefully Add Location Of Camera </h3>
+              <div className={styles.locations}>
+                <h3>Carefully Add Location Of Camera </h3>
+              </div>
               <input
                 type="text"
                 placeholder="City Of Camera Located"
