@@ -27,6 +27,7 @@ body::-webkit-scrollbar-thumb {
 
 .navbar h1 {
     color: white;
+    cursor: default;
     font-size: 50px;
     margin-left: 20px;
 }
@@ -183,6 +184,7 @@ body::-webkit-scrollbar-thumb {
 }
 .marquee h3 {
     display: inline-block;
+    cursor: default;
     padding-left: 100%;
     animation: marquee 7s linear infinite;
 }
@@ -192,5 +194,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 .locations{
+    cursor: default;
     color: white;
 }

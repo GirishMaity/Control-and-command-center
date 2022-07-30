@@ -39,6 +39,7 @@ body{
 
 .left h1 {
     margin-top: 0;
+    cursor: default;
     color: white;
     font-size: 35px;
     align-self: center;
@@ -95,6 +96,7 @@ body{
 
 .right h1 {
     margin-top: 0;
+    cursor: default;
     color: white;
     font-size: 35px;
     align-self: center;
