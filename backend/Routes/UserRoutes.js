@@ -149,16 +149,20 @@ router.post("/showcamera", authenticate, async (req, res) => {
   return res.status(400).json({ error: "An unknown error occured." });
 });
 
-// router.get("/showall", authenticate, async (req, res) => {
-//   try {
-//     const rootUser = req.rootUser;
-//     const user = await User.findOne({
-//       email: rootUser.email,
-//     }).select();
+router.get("/showall", authenticate, async (req, res) => {
+  try {
+    const rootUser = req.rootUser;
+    const user = await User.find(
+      { email: rootUser.email },
+      { cams: { ipaddress: 1 } }
+    );
+    // const user = await User.findOne({
+    //   "cams.ipaddress": { $elemMatch: { email: rootUser.email } },
+    // });
 
-//     res.json(user);
-//   } catch (error) {}
-// });
+    res.json(user);
+  } catch (error) {}
+});
 
 router.get("/logout", (req, res) => {
   res.clearCookie("jwtoken", { path: "/" });
