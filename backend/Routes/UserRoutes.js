@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 connectDB();
 const User = require("../Models/UserSchema");
 const authenticate = require("../middlewares/authenticate");
+const { userInfo } = require("os");
 
 router.get("/", (req, res) => {
   res.send("api running");
@@ -115,28 +116,54 @@ router.post("/addcamera", authenticate, async (req, res) => {
   return res.status(400).json({ error: "An unknown error occured." });
 });
 
+router.post("/showcamera", authenticate, async (req, res) => {
+  const { cameraname } = req.body;
+
+  // if (!cameraname) {
+  //   return res.status(400).json({ error: "Please fill the form properly" });
+  // }
+
+  try {
+    const rootUser = req.rootUser;
+
+    const user = await User.findOne({
+      email: rootUser.email,
+    }).select({ cams: { $elemMatch: { cameraname: cameraname } } });
+    // var arr = [];
+    // for (var i = 0; i < user.cams.length; i++) {
+    //   arr[i] = user.cams[i].ipaddress;
+    //   console.log(user.cams[i].ipaddress);
+    // }
+
+    const ip = user.cams[0].ipaddress;
+
+    if (user) {
+      return res.status(200).json({ ip });
+    } else {
+      return res.status(400).json({ error: "could not fine the camera" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  return res.status(400).json({ error: "An unknown error occured." });
+});
+
+// router.get("/showall", authenticate, async (req, res) => {
+//   try {
+//     const rootUser = req.rootUser;
+//     const user = await User.findOne({
+//       email: rootUser.email,
+//     }).select();
+
+//     res.json(user);
+//   } catch (error) {}
+// });
+
 router.get("/logout", (req, res) => {
   res.clearCookie("jwtoken", { path: "/" });
   res.status(200).send("Logout");
 });
-
-// const streamUrl = "http://192.168.0.103:4747/video";
-// router.get("/cam1", (req, res) => {
-//   http.get(streamUrl, (stream) => {
-//     stream.pipe(res);
-//   });
-// });
-
-// router.get("/video", (req, res) => {
-//   fetch("http://192.168.0.103:4747/video")
-//     .then((r) => r.body)
-//     .then((s) => {
-//       s.pipe(res);
-//     })
-//     .catch((e) => {
-//       res.status(500).send("Error.");
-//     });
-// });
 
 router.get("/cam1", (req, res) => {
   res.redirect("http://192.168.0.103:4747/video");
@@ -145,25 +172,5 @@ router.get("/cam1", (req, res) => {
 router.get("/cam2", (req, res) => {
   res.redirect("http://103.145.35.162:91/mjpg/video.mjpg");
 });
-
-// router.get("/video", (req, res) => {
-//   const range = req.headers.range;
-//   const streamUrl = "http://192.168.0.103:4747/video";
-
-//   const chunkSize = 1 * 1e6;
-//   const start = 0;
-//   const end = start + chunkSize;
-
-//   const headers = {
-//     "Content-Range": `bytes ${start}-${end}`,
-//     "Accept-Ranges": "bytes",
-//     "Content-Length": contentLength,
-//     "Content-Type": "video/mp4",
-//   };
-//   res.writeHead(206, headers);
-
-//   const stream = fs.createReadStream(streamUrl, { start, end });
-//   stream.pipe(res);
-// });
 
 module.exports = router;
