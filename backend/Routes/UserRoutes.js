@@ -154,7 +154,7 @@ router.get("/showall", authenticate, async (req, res) => {
     const rootUser = req.rootUser;
     const user = await User.find(
       { email: rootUser.email },
-      { cams: { ipaddress: 1 } }
+      { cams: { cameraname: 1, ipaddress: 1 } }
     );
     // const user = await User.findOne({
     //   "cams.ipaddress": { $elemMatch: { email: rootUser.email } },
