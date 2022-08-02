@@ -1,7 +1,6 @@
 const express = require("express");
 const connectDB = require("../DB/db");
 const router = express.Router();
-//const got = require("got");
 const http = require("http");
 const fs = require("fs");
 const fetch = require("node-fetch");
@@ -119,21 +118,12 @@ router.post("/addcamera", authenticate, async (req, res) => {
 router.post("/showcamera", authenticate, async (req, res) => {
   const { cameraname } = req.body;
 
-  // if (!cameraname) {
-  //   return res.status(400).json({ error: "Please fill the form properly" });
-  // }
-
   try {
     const rootUser = req.rootUser;
 
     const user = await User.findOne({
       email: rootUser.email,
     }).select({ cams: { $elemMatch: { cameraname: cameraname } } });
-    // var arr = [];
-    // for (var i = 0; i < user.cams.length; i++) {
-    //   arr[i] = user.cams[i].ipaddress;
-    //   console.log(user.cams[i].ipaddress);
-    // }
 
     const ip = user.cams[0].ipaddress;
 
@@ -156,9 +146,6 @@ router.get("/showall", authenticate, async (req, res) => {
       { email: rootUser.email },
       { cams: { cameraname: 1, ipaddress: 1 } }
     );
-    // const user = await User.findOne({
-    //   "cams.ipaddress": { $elemMatch: { email: rootUser.email } },
-    // });
 
     res.json(user);
   } catch (error) {}
@@ -167,14 +154,6 @@ router.get("/showall", authenticate, async (req, res) => {
 router.get("/logout", (req, res) => {
   res.clearCookie("jwtoken", { path: "/" });
   res.status(200).send("Logout");
-});
-
-router.get("/cam1", (req, res) => {
-  res.redirect("http://192.168.0.103:4747/video");
-});
-
-router.get("/cam2", (req, res) => {
-  res.redirect("http://103.145.35.162:91/mjpg/video.mjpg");
 });
 
 module.exports = router;
