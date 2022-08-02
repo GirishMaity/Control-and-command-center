@@ -3,8 +3,39 @@ import styles from "./styles.module.css";
 import React from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { useState } from "react";
+import ShowCam from "../ShowCam";
 
-const Main = () => {
+const Main = ({ camname, setCamname }) => {
+  useEffect(() => {
+    getIp();
+  }, []);
+
+  const [cameraname, setCameraname] = useState([]);
+
+  let camkadata;
+
+  const getIp = async () => {
+    let token = Cookies.get("token");
+    const res = await axios.get("http://localhost:5000/showall", {
+      headers: { authorization: `Bearer ${token}` },
+    });
+    console.log(res.data[0].cams);
+
+    camkadata = res.data[0].cams;
+
+    console.log(typeof camkadata);
+
+    let camArray = [];
+
+    camkadata.map((cam) => {
+      camArray.push(cam.cameraname);
+    });
+
+    setCameraname(camArray);
+  };
+
   const navigate = useNavigate();
   const handleLogout = async () => {
     const res = await axios.get("http://localhost:5000/logout");
@@ -30,6 +61,23 @@ const Main = () => {
           Logout
         </button>
       </nav>
+      {cameraname.map((name) => {
+        return (
+          <button className={styles.white_btn}
+            key={name}
+            onClick={() => {
+              navigate("/showVideo", { replace: true });
+              console.log(name);
+              setCamname(name);
+              // return <ShowCam prop={camArray} />;
+            }}
+          >
+            {name}
+
+            {/* {<ShowCam prop={ipcam} />} */}
+          </button>
+        );
+      })}
     </div>
   );
 };
