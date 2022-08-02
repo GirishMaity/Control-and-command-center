@@ -21,11 +21,8 @@ const Main = ({ camname, setCamname }) => {
     const res = await axios.get("http://localhost:5000/showall", {
       headers: { authorization: `Bearer ${token}` },
     });
-    console.log(res.data[0].cams);
 
     camkadata = res.data[0].cams;
-
-    console.log(typeof camkadata);
 
     let camArray = [];
 
@@ -67,14 +64,10 @@ const Main = ({ camname, setCamname }) => {
             key={name}
             onClick={() => {
               navigate("/showVideo", { replace: true });
-              console.log(name);
               setCamname(name);
-              // return <ShowCam prop={camArray} />;
             }}
           >
             {name}
-
-            {/* {<ShowCam prop={ipcam} />} */}
           </button>
         );
       })}

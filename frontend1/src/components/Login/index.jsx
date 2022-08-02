@@ -25,7 +25,6 @@ const Login = () => {
         localStorage.setItem("token", token);
         Cookies.set("token", token);
       });
-      //localStorage.setItem("token", res.user);
       window.location = "/";
     } catch (error) {
       console.log(error);

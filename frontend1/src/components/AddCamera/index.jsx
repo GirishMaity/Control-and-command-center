@@ -25,7 +25,6 @@ const AddCamera = () => {
     ipaddress: "",
   });
   const [error, setError] = useState("");
-  //const navigate = useNavigate();
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -89,45 +88,6 @@ const AddCamera = () => {
                 onChange={handleChange}
                 value={data.ipaddress}
                 required
-                className={styles.input}
-              />
-              <div className={styles.locations}>
-                <h3>Carefully Add Location Of Camera </h3>
-              </div>
-              <input
-                type="text"
-                placeholder="City Of Camera Located"
-                name="city"
-                onChange={handleChange}
-                value={data.city}
-                //required
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="State Of Camera Located"
-                name="state"
-                onChange={handleChange}
-                value={data.state}
-                //required
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="Country Of Camera Located"
-                name="country"
-                onChange={handleChange}
-                value={data.country}
-                //required
-                className={styles.input}
-              />
-              <input
-                type="text"
-                placeholder="Google Map Link Of Camera Located"
-                name="maplink"
-                onChange={handleChange}
-                value={data.maplink}
-                //required
                 className={styles.input}
               />
               {error && <div className={styles.error_msg}>{error}</div>}
