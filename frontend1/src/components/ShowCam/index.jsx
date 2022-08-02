@@ -2,10 +2,23 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
+import styles from "./styles.module.css";
 
 const ShowCam = ({ camname, ipcam, setIpcam }) => {
   const videoRef = useRef();
   const navigate = useNavigate();
+  const handleLogout = async () => {
+    const res = await axios.get("http://localhost:5000/logout");
+    if (res.status === 200) {
+      localStorage.clear();
+      Cookies.remove("token", { path: "/", domain: "localhost" });
+      window.location.reload();
+      navigate("/login", { replace: true });
+    } else {
+      throw new Error("Could not logout the user.");
+    }
+  };
 
   useEffect(() => {}, [ipcam]);
 
@@ -26,10 +39,35 @@ const ShowCam = ({ camname, ipcam, setIpcam }) => {
   camDisplay();
 
   return (
-    <>
-      <iframe width="700vh" height="500vh" src={ipcam} frameborder="0"></iframe>
-      <button onClick={() => navigate("/")}>Go Back</button>
-    </>
+    <div className={styles.main_container}>
+      <nav className={styles.navbar}>
+        <Link to="/">
+          <button type="button" className={styles.white_btnn}>
+            Go Back
+          </button>
+        </Link>
+        <h1>View A Camera</h1>
+        <button className={styles.white_btnn} onClick={handleLogout}>
+          Logout
+        </button>
+      </nav>
+
+      <div className={styles.addcamera_container}>
+        <div className={styles.addcamera_form_container}>
+          <div className={styles.right}>
+            <center>
+              <iframe
+                width="700vh"
+                height="500vh"
+                src={ipcam}
+                frameborder="0"
+              ></iframe>
+            </center>
+            <h2>{camname}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -21,6 +21,15 @@ function App() {
         />
       )}
       {user && <Route path="/addcamera" exact element={<AddCamera />} />}
+      {user && (
+        <Route
+          path="/showVideo"
+          exact
+          element={
+            <ShowCam ipcam={ipcam} setIpcam={setIpcam} camname={camname} />
+          }
+        />
+      )}
       <Route path="/register" exact element={<Signup />} />
       <Route path="/login" exact element={<Login />} />
       <Route path="/" exact element={<Navigate replace to="/login" />} />
@@ -32,9 +41,7 @@ function App() {
       <Route
         path="/showVideo"
         exact
-        element={
-          <ShowCam ipcam={ipcam} setIpcam={setIpcam} camname={camname} />
-        }
+        element={<Navigate replace to="/login" />}
       />
     </Routes>
   );
