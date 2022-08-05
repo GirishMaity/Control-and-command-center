@@ -39,6 +39,21 @@ const schema = mongoose.Schema({
         type: String,
         required: false,
       },
+      address: {
+        type: String,
+        required: true,
+      },
+      location: {
+        type: {
+          type: String,
+          enum: ["Point"],
+        },
+        coordinates: {
+          type: [Number],
+          index: "2dsphere",
+        },
+        formattedAddress: String,
+      },
     },
   ],
 });
