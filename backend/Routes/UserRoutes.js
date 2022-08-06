@@ -90,23 +90,26 @@ router.get("/authenticate", authenticate, async (req, res) => {
 });
 
 router.post("/addcamera", authenticate, async (req, res) => {
-  const { cameraname, ipaddress } = req.body;
+  const { cameraname, ipaddress, address } = req.body;
 
-  if (!cameraname || !ipaddress) {
+  if (!cameraname || !ipaddress || !address) {
     return res.status(400).json({ error: "Please fill the form properly" });
   }
 
   try {
     const rootUser = req.rootUser;
 
-    const isSaved = await rootUser.addNewCamera(cameraname, ipaddress);
+    const isSaved = await rootUser.addNewCamera(cameraname, ipaddress, address);
+    console.log(`isSaved: ${isSaved}`);
 
     if (isSaved) {
       return res
         .status(200)
-        .json({ message: "Successfully added the camera." });
+        .json({ message: "Successfully added the camera.", data: isSaved });
     } else {
-      return res.status(400).json({ error: "Could not save the camera." });
+      return res
+        .status(400)
+        .json({ error: "Could not save the camera.", data: isSaved });
     }
   } catch (error) {
     console.log(error);

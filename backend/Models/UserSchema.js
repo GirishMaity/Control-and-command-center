@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 const schema = mongoose.Schema({
   name: {
@@ -41,7 +42,7 @@ const schema = mongoose.Schema({
       },
       address: {
         type: String,
-        required: true,
+        required: false,
       },
       location: {
         type: {
@@ -52,7 +53,6 @@ const schema = mongoose.Schema({
           type: [Number],
           index: "2dsphere",
         },
-        formattedAddress: String,
       },
     },
   ],
@@ -78,13 +78,27 @@ schema.methods.generateAuthToken = async function () {
   }
 };
 
-schema.methods.addNewCamera = async function (cameraname, ipaddress) {
+schema.methods.addNewCamera = async function (cameraname, ipaddress, address) {
   try {
-    this.cams = this.cams.concat({
-      cameraname: cameraname,
-      ipaddress: ipaddress,
-    });
-    await this.save();
+    axios
+      .get(
+        `http://www.mapquestapi.com//geocoding/v1/address?key=${process.env.GEOCODER_API_KEY}&location=${address}`
+      )
+      .then(async (res) => {
+        console.log(`statusCode: ${res.status}`);
+        const loc = res.data.results[0].locations[0].latLng;
+        console.log(loc.lat, loc.lng);
+        this.cams = this.cams.concat({
+          cameraname: cameraname,
+          ipaddress: ipaddress,
+          address: address,
+          location: (location = {
+            type: "Point",
+            coordinates: [loc.lat, loc.lng],
+          }),
+        });
+        await this.save();
+      });
     return true;
   } catch (err) {
     console.log(err);
