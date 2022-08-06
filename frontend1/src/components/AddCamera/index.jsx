@@ -23,12 +23,17 @@ const AddCamera = () => {
   const [data, setData] = useState({
     cameraname: "",
     ipaddress: "",
+    address: "",
   });
   const [error, setError] = useState("");
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
+
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +43,7 @@ const AddCamera = () => {
       const { data: res } = await axios.post(url, data, {
         headers: { authorization: `Bearer ${token}` },
       });
+      await delay(1000);
       navigate("/");
       console.log(res.message);
     } catch (error) {
@@ -50,6 +56,9 @@ const AddCamera = () => {
       }
     }
   };
+
+  const [buttonText, setButtonText] = useState("Add Camera");
+  const changeText = (text) => setButtonText(text);
 
   return (
     <div className={styles.main_container}>
@@ -90,9 +99,18 @@ const AddCamera = () => {
                 required
                 className={styles.input}
               />
+              <input
+                type="text"
+                placeholder="Camera Address"
+                name="address"
+                onChange={handleChange}
+                value={data.address}
+                required
+                className={styles.input}
+              />
               {error && <div className={styles.error_msg}>{error}</div>}
-              <button type="submit" className={styles.green_btn}>
-                Add Camera
+              <button type="submit" className={styles.green_btn} onClick={() => setButtonText("Loading...")}>
+                {buttonText}
               </button>
             </form>
           </div>
